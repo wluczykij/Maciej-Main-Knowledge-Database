@@ -1,0 +1,14 @@
+<maciejDB.MainBookLibrary id="1">
+  <libraryName>sss</libraryName>
+  <books id="2">
+    <maciejDB.Book id="3">
+      <authorLastName>c</authorLastName>
+      <authorFirstName>a</authorFirstName>
+      <title></title>
+      <category>NotSet</category>
+      <rating>NotSet</rating>
+      <summary></summary>
+    </maciejDB.Book>
+  </books>
+  <b reference="3"/>
+</maciejDB.MainBookLibrary>

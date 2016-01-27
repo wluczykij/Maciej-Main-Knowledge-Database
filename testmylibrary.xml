@@ -1,0 +1,21 @@
+<maciejDB.MainKnowledge id="1">
+  <name>My Utilities Test Library</name>
+  <books id="2">
+    <maciejDB.Book id="3">
+      <title>not set</title>
+      <authorLastName>not set</authorLastName>
+      <authorFirstName>not set</authorFirstName>
+      <summary>not set</summary>
+      <category>NotSet</category>
+      <rating>NotSet</rating>
+    </maciejDB.Book>
+    <maciejDB.Book id="4">
+      <title>not set</title>
+      <authorLastName>Palczak</authorLastName>
+      <authorFirstName>not set</authorFirstName>
+      <summary>not set</summary>
+      <category>NotSet</category>
+      <rating>NotSet</rating>
+    </maciejDB.Book>
+  </books>
+</maciejDB.MainKnowledge>
