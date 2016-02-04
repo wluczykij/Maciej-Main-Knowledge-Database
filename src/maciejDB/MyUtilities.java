@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import org.apache.log4j.Logger;
 
 
 
@@ -26,7 +26,8 @@ public class MyUtilities implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8539551356280565559L;
-
+	final static Logger logger = Logger.getLogger(MyUtilities.class);
+	
 	public static boolean saveStringToFile(String fileName, String saveString) {
 		boolean saved = false;
 		BufferedWriter bw = null;
@@ -43,6 +44,7 @@ public class MyUtilities implements Serializable {
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
+			logger.error("::saveStringtoFile - IOEception");
 		}
 		return saved;
 	}
@@ -68,6 +70,7 @@ public class MyUtilities implements Serializable {
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
+			logger.error("::getStringFromFile - IOEception");
 		}
 		return sb.toString();
 	}
@@ -141,6 +144,7 @@ public class MyUtilities implements Serializable {
 	   }
 	   catch (Exception ex) {
 	       ex.printStackTrace();
+			logger.error("::saveMyLibraryToSerialFlie - IOEception");
 	   }
 	     return saved;
 
@@ -165,7 +169,46 @@ public class MyUtilities implements Serializable {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
+			logger.error("::getMyLibraryFromSerialFile - IOEception");
 		}
 		return ml;
-	}	
+	}
+	
+	public static void cli() {	
+//TODO: cli has a choice - access Shared Memory - need to read about shared memory,
+		// or from persistent storage
+		int temp = 0;
+		System.out.println(">>>>>> WELCOME TO CONSOLE ACCESS <<<<<<<<<<<<<");	
+		System.out.println("Press 'q'/'Q' to quit");
+		System.out.println("0 - Repeat the menu");
+		System.out.println("1 - Test Main Book Library");
+		
+		do {
+			try {
+				temp = System.in.read();
+				switch (temp) {
+					case 0: {
+						System.out.println(">>>>>> WELCOME TO CONSOLE ACCESS <<<<<<<<<<<<<");	
+						System.out.println("Press 'q'/'Q' to quit");
+						System.out.println("0 - Repeat the menu");
+						System.out.println("1 - Test Main Book Library");
+						break;
+					}
+					case 1: {
+//						MyBookLibrary.testMainBookLibrary();
+						break;
+					}
+					default: {
+						logger.info("::consoleAccess()::default taken for user input!!");				
+						break;
+					}
+				}
+			} catch (IOException ex) {
+				System.out.println("IOException in console");
+				logger.error("::getMyLibraryFromSerialFile - IOException");
+			}
+		} while (temp!='q' && temp!='Q');
+	}
 }
+
+	

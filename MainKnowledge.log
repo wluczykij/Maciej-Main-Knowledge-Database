@@ -1,0 +1,28 @@
+2016-02-03 21:27:12 INFO  MainKnowledge:34 - main:: exits
+2016-02-03 21:27:12 INFO  WelcomeGUI:47 - WelcomeGUI() runs on Event Dispatching thread: true
+2016-02-03 21:27:29 DEBUG WelcomeGUI:84 - mainChoiceComboBox: Book Database
+2016-02-03 21:27:29 INFO  MainBookLibraryGUI:69 - MainBookLibraryGUI() runs on Event Dispatching thread: true
+2016-02-03 21:27:38 INFO  MainBookLibrary:19 - constructor, library name: asd
+2016-02-03 21:27:38 TRACE BookEntryGUI:72 - BookEntryGUI() runs on Event Dispatching thread: true
+2016-02-03 21:27:44 DEBUG BookEntryGUI:113 - ::firstNameTextField::insertUpdateEvent
+2016-02-03 21:27:52 DEBUG BookEntryGUI:151 - ::lastNameTextField::insertUpdateEvent
+2016-02-03 21:27:58 DEBUG BookEntryGUI:189 - ::titleTextField::insertUpdateEvent
+2016-02-03 21:28:02 INFO  BookEntryGUI:254 - ::OK action
+2016-02-03 21:28:02 TRACE MainBookLibraryGUI:213 - ::propertyChange::AuthorLastName b
+2016-02-03 21:28:02 TRACE MainBookLibraryGUI:219 - ::propertyChange::AuthorFirstName a
+2016-02-03 21:28:02 TRACE MainBookLibraryGUI:225 - ::propertyChange::Title c
+2016-02-03 21:28:02 TRACE MainBookLibraryGUI:231 - ::propertyChange::Category NotSet
+2016-02-03 21:28:02 TRACE MainBookLibraryGUI:237 - ::propertyChange::Rating NotSet
+2016-02-03 21:28:02 TRACE MainBookLibraryGUI:243 - ::propertyChange::Summary 
+2016-02-03 21:28:02 INFO  MainBookLibraryGUI:248 - Adding New Book to Library: true
+2016-02-03 21:28:02 INFO  MainBookLibraryGUI:259 - ::addNewBookToLibrary runs of EventDispatchThread: false
+2016-02-03 21:28:02 DEBUG BookEntryGUI:141 - ::lastNameTextField::removeUpdateEvent
+2016-02-03 21:28:02 DEBUG BookEntryGUI:103 - ::firstNameTextField::removeUpdateEvent
+2016-02-03 21:28:02 DEBUG BookEntryGUI:179 - ::titleTextField::removeUpdateEvent
+2016-02-03 21:28:02 INFO  BookEntryGUI:287 - ::exitProgram->getOwnedWindows has: 0
+2016-02-03 21:28:02 INFO  MainBookLibrary:55 - addBookToLibrary - Book added
+2016-02-03 21:28:08 INFO  MainBookLibraryGUI:170 - ::Cancel action
+2016-02-03 21:28:08 TRACE WelcomeGUI:113 - ::propertyChange::isMainBookLibraryGUIActive false
+2016-02-03 21:28:08 INFO  MainBookLibraryGUI:189 - ::exitProgram
+2016-02-03 21:28:11 INFO  WelcomeGUI:70 - ::Cancel action
+2016-02-03 21:28:11 DEBUG WelcomeGUI:121 - ::exitProgram->getOwnedWindows has: 1

@@ -44,11 +44,11 @@ public class WelcomeGUI extends JFrame{
 		welcomeGUIChoice = "";
 		isMainBookLibraryGUIActive = false;
 		initUI();
-		logger.info("WelcomeGUI runs on Event Dispatching thread: "
+		logger.info("WelcomeGUI() runs on Event Dispatching thread: "
 				+ SwingUtilities.isEventDispatchThread());
 	}
 	private void initUI() {
-		setTitle("Muminek Enterprises");
+		setTitle("Muminek Enterprises: WelcomeGUI");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -60,14 +60,14 @@ public class WelcomeGUI extends JFrame{
 		lblMaciejKnowledge.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblMaciejKnowledge, BorderLayout.CENTER);
 		
-		JLabel lblWelcome = new JLabel("WELCOME to\nMaciej Knowledge");
+		JLabel lblWelcome = new JLabel("WELCOME to \r\nMaciej Knowledge");
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblWelcome, BorderLayout.NORTH);
 		
 		JButton btnCancel = new JButton("CANCEL");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.info("WelcomeGUI::Cancel action");
+				logger.info("::Cancel action");
 				exitProgram();
 			}
 		});
@@ -118,7 +118,7 @@ public class WelcomeGUI extends JFrame{
 	}
 	
 	private void exitProgram() {
-		logger.debug("WelcomeGUI::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
+		logger.debug("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
 		
 		// for some reason this works on JDialogue as well
 		for (Frame f: Frame.getFrames()) {

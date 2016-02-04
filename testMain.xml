@@ -1,13 +1,13 @@
 <maciejDB.MainBookLibrary id="1">
-  <libraryName>sss</libraryName>
+  <libraryName>MyLibrary</libraryName>
   <books id="2">
     <maciejDB.Book id="3">
-      <authorLastName>c</authorLastName>
+      <authorLastName>s</authorLastName>
       <authorFirstName>a</authorFirstName>
-      <title></title>
+      <title>x</title>
       <category>NotSet</category>
       <rating>NotSet</rating>
-      <summary></summary>
+      <summary>x</summary>
     </maciejDB.Book>
   </books>
   <b reference="3"/>

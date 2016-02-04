@@ -45,6 +45,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 	private boolean addNewBookToLibraryFlag;
 	MainBookLibrary MyBookLibrary;
 	Boolean activeMainBookLibraryGUI; // indicates if this GUI window is active (up)
+	BookEntryGUI BookEntryDialog;		// reference to the BookEntryGUI child object
 	
 	// end of my variables
 
@@ -72,6 +73,8 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 	private void resetLibrary() {
 		mainBookLibraryNameForMainBookLibrary = null;
 		mainBookLibraryChoiceMade = false;
+		// reset child window - BookEntryGUI
+		BookEntryDialog = null;
 	}
 	
 	private void resetBook() {		
@@ -90,7 +93,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 	}
 
 	private void initAndRunUI() {
-		setTitle("Muminek Enterprises");
+		setTitle("Muminek Enterprises: MainBookLibraryGUI");
 		setBounds(100, 100, 450, 300);
 		setLocationByPlatform(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -139,30 +142,20 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Create");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						mainBookLibraryNameForMainBookLibrary = mainLibraryChoicetextField.getText();
-						if (libraryChoiceComboBoxValue.isEmpty()) {
-							lblFeedbackToUser.setText("You did not make any choice");
-						}						
-						else if (mainBookLibraryNameForMainBookLibrary.isEmpty())
-						{
-							lblFeedbackToUser.setText("You did not enter book library name");
-						}
-						else if (mainBookLibraryChoiceMade == false){
-							//TODO - creating MainBookLibrary in this thread
-							// is questionable
-							mainBookLibraryChoiceMade = true; 
-							MyBookLibrary = new MainBookLibrary(mainBookLibraryNameForMainBookLibrary);
-							lblFeedbackToUser.setText("");
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {	
-									invokeBookEntryGUI();
-								}
-							});							
-						}
+						if (validateOKAction() == true) {
+							mainBookLibraryNameForMainBookLibrary = mainLibraryChoicetextField.getText();
+								mainBookLibraryChoiceMade = true;
+								MyBookLibrary = new MainBookLibrary(mainBookLibraryNameForMainBookLibrary);
+								lblFeedbackToUser.setText("");
+								SwingUtilities.invokeLater(new Runnable() {
+									public void run() {
+										invokeBookEntryGUI();
+									}
+								});
+							}
 					} //end of actionPerformed()
 				}); // end of ActionListener()
 				okButton.setActionCommand("OK");
@@ -193,19 +186,16 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 		firePropertyChange(ACTIVE_MAIN_BOOK_LIBRARY_GUI, localActiveMainBookLibraryGUI, activeMainBookLibraryGUI);
 	}
 	private void exitProgram() {
-		logger.info("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
-		
-		// for some reason this works on JDialogue as well
-		// this below kills all the windows, not just ownedWindows - need to 
-		// kill only owned windows
-//		for (Frame f: Frame.getFrames()) {
-//			f.dispose();
-//		}
+		logger.info("::exitProgram");
+
+		if (BookEntryDialog!=null) {
+			BookEntryDialog.dispose();
+		}	
 		dispose();
 	}
 	
 	private void invokeBookEntryGUI() {
-		BookEntryGUI BookEntryDialog = new BookEntryGUI();
+		BookEntryDialog = new BookEntryGUI();
 		BookEntryDialog.setVisible(true);
 
 		// adding the listener, according to this:
@@ -256,14 +246,15 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 				else if (BookEntryDialog.ADD_NEW_BOOK_TO_LIBRARY.equals(pcEvt.getPropertyName())) {
 					addNewBookToLibraryFlag = (boolean) pcEvt.getNewValue();
 					logger.info("Adding New Book to Library: "+addNewBookToLibraryFlag);
-					addNewBookToLibrary();
+					addNewBookToLibraryTask();
 				}
 			}			
 		});
 	}
 	
-	private void addNewBookToLibrary() {
-		Thread addNewBookToLibrary = new Thread() {
+	private void addNewBookToLibraryTask() {
+		//this method runs on a normal thread
+		Thread addNewBookToLibraryThread = new Thread() {
 			public void run() {
 				logger.info("::addNewBookToLibrary runs of EventDispatchThread: "
 						+ SwingUtilities.isEventDispatchThread());
@@ -283,10 +274,32 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 					return;
 				}
 				//TODO - wrong place to test
-				MyBookLibrary.testMainBookLibrary();
+				// MyBookLibrary.testMainBookLibrary();
 			}
 		};
-		addNewBookToLibrary.start();	
+		addNewBookToLibraryThread.start();	
+	}
+	
+	private boolean validateOKAction() {
+	/* 
+	 - can not press OK without choosing what to do
+	 - must specify the main library name
+	 - mainBookLibraryChoiceMade must be false - that means it is new book library, not the used one
+	 */
+		boolean returnValue = false;
+		// can not press OK without choosing what to do
+		if ((libraryChoiceComboBoxValue == null) || (libraryChoiceComboBoxValue.isEmpty()) || (libraryChoiceComboBoxValue == "Choose")) {
+			lblFeedbackToUser.setText("You have to make a choice");
+		} else if (mainLibraryChoicetextField.getText().isEmpty()) {
+				lblFeedbackToUser.setText("You did not enter book library name");			
+			}
+			else if (mainBookLibraryChoiceMade == true) {
+				lblFeedbackToUser.setText("Library is already created");	
+			}
+			else
+				returnValue = true; 
+
+		return returnValue;
 	}
 }
 

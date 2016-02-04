@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import org.apache.log4j.Logger;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class BookEntryGUI extends JDialog implements BookAttributes {
 
@@ -38,9 +40,13 @@ public class BookEntryGUI extends JDialog implements BookAttributes {
 	String summaryForBook;
 	// flag indicating if there is new book info to be sent
 	Boolean addNewBookToLibrary;  
+	JButton okButton;
+	JButton btnNextBook;
 	
 	// my variables
-	
+	boolean firstNameSet;
+	boolean lastNameSet;
+	boolean titleSet;
 	// end of my variables
 	private JTextField firstNameTextField;
 	private JTextField lastNameTextField;
@@ -49,7 +55,10 @@ public class BookEntryGUI extends JDialog implements BookAttributes {
 	private JComboBox ratingComboBox; 
 	private JTextArea summaryTextArea;
 	
-	final static Logger logger = Logger.getLogger(BookEntryGUI.class);
+	
+	
+	
+	final static Logger loggerBookEntryGUI = Logger.getLogger(BookEntryGUI.class);
 	
 	
 	private final JPanel contentPanel = new JPanel();
@@ -58,14 +67,14 @@ public class BookEntryGUI extends JDialog implements BookAttributes {
 	 * Create the dialog.
 	 */
 	public BookEntryGUI() {
-		initAndRunUI();
+		initAndRunUI();	
 		resetBookParameters();
-		logger.debug("BookEntryGUI() runs on Event Dispatching thread: "
+		loggerBookEntryGUI.trace("BookEntryGUI() runs on Event Dispatching thread: "
 				+ SwingUtilities.isEventDispatchThread());
 	}		
 		
 private void initAndRunUI() {		
-		setTitle("Muminek Enterprises - Book Control");
+		setTitle("Muminek Enterprises: BookEnryGUI");
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
@@ -77,7 +86,36 @@ private void initAndRunUI() {
 			contentPanel.add(lblFirstName);
 		}
 		{
-			firstNameTextField = new JTextField();
+			firstNameTextField = new JTextField();			
+			firstNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+				/**
+	             * If the text is changed then this event will be fired.
+	             */
+				public void changedUpdate(DocumentEvent e) {
+					loggerBookEntryGUI.debug("::firstNameTextField::changedUpdateEvent");
+					firstNameSet = true;
+					buttonsEnabler();	
+				}
+				/**
+	             * If some value is removed then this event is fired.
+	             */
+	            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+	            	loggerBookEntryGUI.debug("::firstNameTextField::removeUpdateEvent");
+	            	firstNameSet = true;
+					buttonsEnabler();	
+	            }
+	            /**
+	             * If some value is auto set, this event will be called
+	             * @param e The value change event
+	             */
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					loggerBookEntryGUI.debug("::firstNameTextField::insertUpdateEvent");
+	            	firstNameSet = true;
+					buttonsEnabler();	
+				}	           				
+			});
+
 			contentPanel.add(firstNameTextField);
 			firstNameTextField.setColumns(10);
 		}
@@ -87,6 +125,35 @@ private void initAndRunUI() {
 		}
 		{
 			lastNameTextField = new JTextField();
+			lastNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+				/**
+	             * If the text is changed then this event will be fired.
+	             */
+				public void changedUpdate(DocumentEvent e) {
+					loggerBookEntryGUI.debug("::lastNameTextField::changedUpdateEvent");
+					lastNameSet = true;
+					buttonsEnabler();	
+				}
+				/**
+	             * If some value is removed then this event is fired.
+	             */
+	            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+	            	loggerBookEntryGUI.debug("::lastNameTextField::removeUpdateEvent");
+	            	lastNameSet = true;
+					buttonsEnabler();	
+	            }
+	            /**
+	             * If some value is auto set, this event will be called
+	             * @param e The value change event
+	             */
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					loggerBookEntryGUI.debug("::lastNameTextField::insertUpdateEvent");
+	            	lastNameSet = true;
+					buttonsEnabler();	
+				}	           				
+			});
+
 			contentPanel.add(lastNameTextField);
 			lastNameTextField.setColumns(10);
 		}
@@ -96,6 +163,35 @@ private void initAndRunUI() {
 		}
 		{
 			titleTextField = new JTextField();
+			titleTextField.getDocument().addDocumentListener(new DocumentListener() {
+				/**
+	             * If the text is changed then this event will be fired.
+	             */
+				public void changedUpdate(DocumentEvent e) {
+					loggerBookEntryGUI.debug("::titleTextField::changedUpdateEvent");
+					titleSet = true;
+					buttonsEnabler();	
+				}
+				/**
+	             * If some value is removed then this event is fired.
+	             */
+	            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+	            	loggerBookEntryGUI.debug("::titleTextField::removeUpdateEvent");
+	            	titleSet = true;
+					buttonsEnabler();	
+	            }
+	            /**
+	             * If some value is auto set, this event will be called
+	             * @param e The value change event
+	             */
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					loggerBookEntryGUI.debug("::titleTextField::insertUpdateEvent");
+					titleSet = true;
+					buttonsEnabler();	
+				}	           				
+			});
+			
 			contentPanel.add(titleTextField);
 			titleTextField.setColumns(10);
 		}
@@ -135,11 +231,12 @@ private void initAndRunUI() {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnNextBook = new JButton("Next Book");
+				btnNextBook = new JButton("Next Book");
+				btnNextBook.setEnabled(false);
 				btnNextBook.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// design is to pass info from single book and continue to next
-						logger.info("::Next Book action");
+						loggerBookEntryGUI.info("::Next Book action");
 						collectBookParametes();	
 						addNewBookToLibrary = true;
 						sentCollectedBookData();
@@ -148,12 +245,13 @@ private void initAndRunUI() {
 				buttonPane.add(btnNextBook);
 			}
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("Finished");
+				okButton.setEnabled(false);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// idea is to collect info and exit.... 
 						// if more books to enter, Next Book button, not OK
-						logger.info("::OK action");
+						loggerBookEntryGUI.info("::OK action");
 						collectBookParametes();	
 						addNewBookToLibrary = true;
 						sentCollectedBookData();
@@ -168,7 +266,7 @@ private void initAndRunUI() {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						logger.info("::Cancel action");
+						loggerBookEntryGUI.info("::Cancel action");
 						exitProgram();
 					}
 				});
@@ -186,7 +284,7 @@ private void initAndRunUI() {
 	}
 
 	private void exitProgram() {
-		logger.info("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
+		loggerBookEntryGUI.info("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
 		dispose();
 		return;
 	}
@@ -204,6 +302,10 @@ private void initAndRunUI() {
 		titleTextField.setText(titleForBook);
 		ratingComboBox.setSelectedItem(Rating.NotSet);
 		summaryTextArea.setText(summaryForBook);
+		firstNameSet = false;
+		lastNameSet = false;
+		titleSet = false;
+		buttonsDisabler();
 		return;
 	}
 	
@@ -230,9 +332,22 @@ private void initAndRunUI() {
 		firePropertyChange(SUMMARY_FOR_BOOK, oldValue, summaryForBook);
 		// TODO: Since it seems that it fires, even for null values, 
 		// need to implement work around: not to fire if key properties are not set
-		if (!authorLastNameForBook.isEmpty() && !authorFirstNameForBook.isEmpty())
+		// so send the flag to specify if book has to be added or not
+		if (!authorLastNameForBook.isEmpty() && !authorFirstNameForBook.isEmpty()&& !titleForBook.isEmpty())
 			firePropertyChange(ADD_NEW_BOOK_TO_LIBRARY, oldAddNewBookToLibrary, addNewBookToLibrary);
 		// after sending all the parameters, need to reset them
 		resetBookParameters();
+	}
+	
+	private void buttonsEnabler() {
+		if (firstNameSet==true && lastNameSet==true &&titleSet==true) {
+			okButton.setEnabled(true);
+			btnNextBook.setEnabled(true);
+		}
+	}
+	
+	private void buttonsDisabler() {
+		okButton.setEnabled(false);
+		btnNextBook.setEnabled(false);
 	}
 }
