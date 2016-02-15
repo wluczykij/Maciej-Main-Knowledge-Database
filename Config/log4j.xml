@@ -28,9 +28,19 @@
 		<level value="INFO" />
 		<level value="WARNING" />
 		<level value="ERROR" />
-		<level value="FATAL" /> -->
+		<level value="FATAL" /> 
+		<level value="OFF" />
+- TRACE Very detailed information. Should be written to logs only. 
+									Used only to track the program's flow at checkpoints.
+- DEBUG Detailed information. Should be written to logs only.
+- INFO Notable runtime events. Should be immediately visible on a console, so use sparingly.
+- WARNING Runtime oddities and recoverable errors.
+- ERROR Other runtime errors or unexpected conditions.
+- FATAL Severe errors causing premature termination.
+
+		-->
 		
-		<level value="TRACE" />
+		<level value="TRACE" /> 
 		<!-- <appender-ref ref="console" /> -->
 		<appender-ref ref="file" /> 
 	</root>

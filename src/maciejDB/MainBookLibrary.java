@@ -9,14 +9,14 @@ public class MainBookLibrary implements BookAttributes,Serializable {
 	/**
 	 * 
 	 */
-	final static Logger logger = Logger.getLogger(MainBookLibrary.class);
+	final static Logger loggerMainBookLibrary = Logger.getLogger(MainBookLibrary.class);
 	private static final long serialVersionUID = -5451146017846456157L;
 	String libraryName;
 	ArrayList<Book> books;	
 	Book b;
 	
 	MainBookLibrary(String inputLibraryName) {
-		logger.info("constructor, library name: "+inputLibraryName);
+		loggerMainBookLibrary.trace("constructor, library name: "+inputLibraryName);
 		this.libraryName = inputLibraryName;
 		books = new ArrayList<Book>();
 	}
@@ -52,7 +52,7 @@ public class MainBookLibrary implements BookAttributes,Serializable {
 									inputCategory, 
 									inputRating, 
 									inputSummary));
-		logger.info("addBookToLibrary - Book added");		
+		loggerMainBookLibrary.info("addBookToLibrary - Book added");		
 	}
 	
 	public Book createBookEntry(String inputAuthorLastName, 
@@ -77,12 +77,12 @@ public class MainBookLibrary implements BookAttributes,Serializable {
 	}
 	
 	public void testMainBookLibrary() {
-		logger.info("::testMainBookLibrary");
+		loggerMainBookLibrary.info("::testMainBookLibrary");
 		
 		System.out.println("Just Created New Main Library");
 		this.printStatus();
 		
-		MyUtilities.saveMyLibraryToXMLFlie("testMain.xml", this);
+		MyUtilities.saveMyLibraryToXMLFile("testMain.xml", this);
 		
 		MainBookLibrary newMyLibrary = MyUtilities.
 				getMyLibraryFromXMLFile("testMain.xml");

@@ -29,7 +29,7 @@ import java.beans.PropertyChangeListener;
 
 public class WelcomeGUI extends JFrame{
 
-	final static Logger logger = Logger.getLogger(WelcomeGUI.class);
+	final static Logger loggerWelcomeGUI = Logger.getLogger(WelcomeGUI.class);
 	// my variables
 	private String welcomeGUIChoice;
 	private Boolean isMainBookLibraryGUIActive;
@@ -44,7 +44,7 @@ public class WelcomeGUI extends JFrame{
 		welcomeGUIChoice = "";
 		isMainBookLibraryGUIActive = false;
 		initUI();
-		logger.info("WelcomeGUI() runs on Event Dispatching thread: "
+		loggerWelcomeGUI.trace("WelcomeGUI() runs on Event Dispatching thread: "
 				+ SwingUtilities.isEventDispatchThread());
 	}
 	private void initUI() {
@@ -67,7 +67,7 @@ public class WelcomeGUI extends JFrame{
 		JButton btnCancel = new JButton("CANCEL");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.info("::Cancel action");
+				loggerWelcomeGUI.trace("::Cancel action");
 				exitProgram();
 			}
 		});
@@ -81,7 +81,7 @@ public class WelcomeGUI extends JFrame{
 		mainChoiceComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				welcomeGUIChoice = mainChoiceComboBox.getSelectedItem().toString();
-				logger.debug("mainChoiceComboBox: "+welcomeGUIChoice);
+				loggerWelcomeGUI.debug("mainChoiceComboBox: "+welcomeGUIChoice);
 				if (welcomeGUIChoice!="Choose") {	
 					if ((welcomeGUIChoice=="Book Database") && (isMainBookLibraryGUIActive==false)) {						
 						isMainBookLibraryGUIActive = true; 
@@ -110,7 +110,7 @@ public class WelcomeGUI extends JFrame{
 					// check if MainBookLibraryGUI is active
 					isMainBookLibraryGUIActive = (Boolean) pcEvt.getNewValue();
 					// then we can do with it what we want
-					logger.trace ("::propertyChange::isMainBookLibraryGUIActive "
+					loggerWelcomeGUI.trace ("::propertyChange::isMainBookLibraryGUIActive "
 							+ isMainBookLibraryGUIActive);
 				}
 			}			
@@ -118,7 +118,7 @@ public class WelcomeGUI extends JFrame{
 	}
 	
 	private void exitProgram() {
-		logger.debug("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
+		loggerWelcomeGUI.debug("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
 		
 		// for some reason this works on JDialogue as well
 		for (Frame f: Frame.getFrames()) {

@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 
 public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 
-	final static Logger logger = Logger.getLogger(MainBookLibraryGUI.class);
+	final static Logger loggerMainBookLibraryGUI = Logger.getLogger(MainBookLibraryGUI.class);
 	
 	// my variables required for MainBookLibrary
 	private String mainBookLibraryNameForMainBookLibrary;
@@ -66,7 +66,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 		libraryChoiceComboBoxValue = null;
 		activeMainBookLibraryGUI = true; //window is up
 		initAndRunUI();
-		logger.info("MainBookLibraryGUI() runs on Event Dispatching thread: "
+		loggerMainBookLibraryGUI.trace("MainBookLibraryGUI() runs on Event Dispatching thread: "
 				+ SwingUtilities.isEventDispatchThread());
 	}
 	
@@ -146,6 +146,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (validateOKAction() == true) {
+							loggerMainBookLibraryGUI.info("::Create action");
 							mainBookLibraryNameForMainBookLibrary = mainLibraryChoicetextField.getText();
 								mainBookLibraryChoiceMade = true;
 								MyBookLibrary = new MainBookLibrary(mainBookLibraryNameForMainBookLibrary);
@@ -167,7 +168,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						mainBookLibraryGUIInputExit = true;
-						logger.info("::Cancel action");
+						loggerMainBookLibraryGUI.info("::Cancel action");
 						// need to pass info to the parent (WelcomeGUI.java), that window is closing
 						sendInfoToParentGUI();
 						exitProgram();
@@ -186,7 +187,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 		firePropertyChange(ACTIVE_MAIN_BOOK_LIBRARY_GUI, localActiveMainBookLibraryGUI, activeMainBookLibraryGUI);
 	}
 	private void exitProgram() {
-		logger.info("::exitProgram");
+		loggerMainBookLibraryGUI.trace("::exitProgram");
 
 		if (BookEntryDialog!=null) {
 			BookEntryDialog.dispose();
@@ -210,42 +211,42 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 					authorLastName = pcEvt.getNewValue().toString();
 
 					// then we can do with it what we want
-					logger.trace ("::propertyChange::AuthorLastName "
+					loggerMainBookLibraryGUI.trace ("::propertyChange::AuthorLastName "
 							+ authorLastName);
 				}
 				else if (BookEntryDialog.AUTHOR_FIRST_NAME.equals(pcEvt.getPropertyName())) {
 					// get user input
 					authorFirstName = pcEvt.getNewValue().toString();
-					logger.trace("::propertyChange::AuthorFirstName "
+					loggerMainBookLibraryGUI.trace("::propertyChange::AuthorFirstName "
 							+ authorFirstName);
 				}
 				else if (BookEntryDialog.TITLE_FOR_BOOK.equals(pcEvt.getPropertyName())) {
 					// get user input
 					title = pcEvt.getNewValue().toString();
-					logger.trace("::propertyChange::Title "
+					loggerMainBookLibraryGUI.trace("::propertyChange::Title "
 							+ title);
 				}
 				else if (BookEntryDialog.CATEGORY_FOR_BOOK.equals(pcEvt.getPropertyName())) {
 					// get user input
 					category = (Category) pcEvt.getNewValue();
-					logger.trace("::propertyChange::Category "
+					loggerMainBookLibraryGUI.trace("::propertyChange::Category "
 							+ category);
 				}
 				else if (BookEntryDialog.RATING_FOR_BOOK.equals(pcEvt.getPropertyName())) {
 					// get user input
 					rating = (Rating) pcEvt.getNewValue();
-					logger.trace("::propertyChange::Rating "
+					loggerMainBookLibraryGUI.trace("::propertyChange::Rating "
 							+ rating);
 				}
 				else if (BookEntryDialog.SUMMARY_FOR_BOOK.equals(pcEvt.getPropertyName())) {
 					// get user input
 					summary = pcEvt.getNewValue().toString();
-					logger.trace("::propertyChange::Summary "
+					loggerMainBookLibraryGUI.trace("::propertyChange::Summary "
 							+ summary);
 				}
 				else if (BookEntryDialog.ADD_NEW_BOOK_TO_LIBRARY.equals(pcEvt.getPropertyName())) {
 					addNewBookToLibraryFlag = (boolean) pcEvt.getNewValue();
-					logger.info("Adding New Book to Library: "+addNewBookToLibraryFlag);
+					loggerMainBookLibraryGUI.info("Adding New Book to Library: "+addNewBookToLibraryFlag);
 					addNewBookToLibraryTask();
 				}
 			}			
@@ -256,7 +257,7 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 		//this method runs on a normal thread
 		Thread addNewBookToLibraryThread = new Thread() {
 			public void run() {
-				logger.info("::addNewBookToLibrary runs of EventDispatchThread: "
+				loggerMainBookLibraryGUI.trace("::addNewBookToLibrary runs of EventDispatchThread: "
 						+ SwingUtilities.isEventDispatchThread());
 				if (MyBookLibrary != null) {
 					MyBookLibrary.addBookToLibrary(authorLastName,
@@ -267,10 +268,11 @@ public class MainBookLibraryGUI extends JDialog implements BookAttributes {
 													summary);
 					//TODO - this printStatus() is temporarily for debugging
 					MyBookLibrary.printStatus();
+					MyUtilities.saveMyLibraryToXMLFile(mainBookLibraryNameForMainBookLibrary, MyBookLibrary);
 				}
 				// something went wrong, I don't have library created
 				else { 
-					logger.error("addNewBookToLibrary(): library is null!");
+					loggerMainBookLibraryGUI.error("addNewBookToLibrary(): library is null!");
 					return;
 				}
 				//TODO - wrong place to test

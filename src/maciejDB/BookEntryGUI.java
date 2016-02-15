@@ -20,6 +20,11 @@ import java.awt.event.ActionEvent;
 import org.apache.log4j.Logger;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class BookEntryGUI extends JDialog implements BookAttributes {
 
@@ -79,13 +84,24 @@ private void initAndRunUI() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.NORTH);
+		GridBagLayout gbl_contentPanel = new GridBagLayout();
+		gbl_contentPanel.columnWidths = new int[]{64, 0, 61, 56, 58, 5, 101, 16, 26, 0};
+		gbl_contentPanel.rowHeights = new int[]{28, 28, 44, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPanel.setLayout(gbl_contentPanel);
 		{
-			JLabel lblFirstName = new JLabel("First Name:");
-			contentPanel.add(lblFirstName);
-		}
-		{
+			{
+				JLabel lblFirstName = new JLabel("First Name:");
+				GridBagConstraints gbc_lblFirstName = new GridBagConstraints();
+				gbc_lblFirstName.insets = new Insets(0, 0, 5, 5);
+				gbc_lblFirstName.gridx = 1;
+				gbc_lblFirstName.gridy = 0;
+				gbc_lblFirstName.gridwidth = 1;
+				contentPanel.add(lblFirstName, gbc_lblFirstName);
+			}
+			
 			firstNameTextField = new JTextField();			
 			firstNameTextField.getDocument().addDocumentListener(new DocumentListener() {
 				/**
@@ -115,15 +131,27 @@ private void initAndRunUI() {
 					buttonsEnabler();	
 				}	           				
 			});
-
-			contentPanel.add(firstNameTextField);
 			firstNameTextField.setColumns(10);
-		}
-		{
-			JLabel lblLastName = new JLabel("Last Name:");
-			contentPanel.add(lblLastName);
-		}
-		{
+			GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
+			gbc_firstNameTextField.anchor = GridBagConstraints.NORTHWEST;
+			gbc_firstNameTextField.insets = new Insets(0, 0, 5, 5);
+			gbc_firstNameTextField.gridwidth = 2;
+			gbc_firstNameTextField.gridx = 2;
+			gbc_firstNameTextField.gridy = 0;
+			gbc_firstNameTextField.fill = GridBagConstraints.HORIZONTAL;
+			contentPanel.add(firstNameTextField, gbc_firstNameTextField);
+			
+			{
+				JLabel lblLastName = new JLabel("Last Name:");
+				GridBagConstraints gbc_lblLastName = new GridBagConstraints();
+				gbc_lblLastName.anchor = GridBagConstraints.EAST;
+				gbc_lblLastName.insets = new Insets(0, 0, 5, 5);
+				gbc_lblLastName.gridwidth = 1;
+				gbc_lblLastName.gridx = 4;
+				gbc_lblLastName.gridy = 0;
+				contentPanel.add(lblLastName, gbc_lblLastName);
+			}
+			
 			lastNameTextField = new JTextField();
 			lastNameTextField.getDocument().addDocumentListener(new DocumentListener() {
 				/**
@@ -153,79 +181,135 @@ private void initAndRunUI() {
 					buttonsEnabler();	
 				}	           				
 			});
-
-			contentPanel.add(lastNameTextField);
 			lastNameTextField.setColumns(10);
-		}
-		{
-			JLabel lblTitle = new JLabel("Title:");
-			contentPanel.add(lblTitle);
-		}
-		{
-			titleTextField = new JTextField();
-			titleTextField.getDocument().addDocumentListener(new DocumentListener() {
-				/**
-	             * If the text is changed then this event will be fired.
-	             */
-				public void changedUpdate(DocumentEvent e) {
-					loggerBookEntryGUI.debug("::titleTextField::changedUpdateEvent");
-					titleSet = true;
-					buttonsEnabler();	
-				}
-				/**
-	             * If some value is removed then this event is fired.
-	             */
-	            public void removeUpdate(javax.swing.event.DocumentEvent e) {
-	            	loggerBookEntryGUI.debug("::titleTextField::removeUpdateEvent");
-	            	titleSet = true;
-					buttonsEnabler();	
-	            }
-	            /**
-	             * If some value is auto set, this event will be called
-	             * @param e The value change event
-	             */
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					loggerBookEntryGUI.debug("::titleTextField::insertUpdateEvent");
-					titleSet = true;
-					buttonsEnabler();	
-				}	           				
-			});
+			GridBagConstraints gbc_lastNameTextField = new GridBagConstraints();
+			gbc_lastNameTextField.anchor = GridBagConstraints.NORTHWEST;
+			gbc_lastNameTextField.insets = new Insets(0, 0, 5, 5);
+			gbc_lastNameTextField.gridwidth = 2;
+			gbc_lastNameTextField.gridx = 5;
+			gbc_lastNameTextField.gridy = 0;
+			gbc_lastNameTextField.fill = GridBagConstraints.HORIZONTAL;
+			contentPanel.add(lastNameTextField, gbc_lastNameTextField);			
 			
-			contentPanel.add(titleTextField);
-			titleTextField.setColumns(10);
-		}
-		{
-			JLabel lblCategory = new JLabel("Category:");
-			contentPanel.add(lblCategory);
-		}
-		{
-			categoryComboBox = new JComboBox();
-			// TODO need to set it to default - not set
-			categoryComboBox.setModel(new DefaultComboBoxModel(Category.values()));
+			{
+				JLabel lblTitle = new JLabel("Title:");
+				GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+				gbc_lblTitle.anchor = GridBagConstraints.WEST;
+				gbc_lblTitle.insets = new Insets(0, 0, 5, 0);
+				gbc_lblTitle.gridx = 1;
+				gbc_lblTitle.gridy = 1;
+				contentPanel.add(lblTitle, gbc_lblTitle);
+			}
+			{
+				titleTextField = new JTextField();
+				titleTextField.getDocument().addDocumentListener(new DocumentListener() {
+					/**
+		             * If the text is changed then this event will be fired.
+		             */
+					public void changedUpdate(DocumentEvent e) {
+						loggerBookEntryGUI.debug("::titleTextField::changedUpdateEvent");
+						titleSet = true;
+						buttonsEnabler();	
+					}
+					/**
+		             * If some value is removed then this event is fired.
+		             */
+		            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+		            	loggerBookEntryGUI.debug("::titleTextField::removeUpdateEvent");
+		            	titleSet = true;
+						buttonsEnabler();	
+		            }
+		            /**
+		             * If some value is auto set, this event will be called
+		             * @param e The value change event
+		             */
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						loggerBookEntryGUI.debug("::titleTextField::insertUpdateEvent");
+						titleSet = true;
+						buttonsEnabler();	
+					}	           				
+				});
+				titleTextField.setColumns(10);
+				GridBagConstraints gbc_titleTextField = new GridBagConstraints();
+				gbc_titleTextField.anchor = GridBagConstraints.NORTHEAST;
+				gbc_titleTextField.insets = new Insets(0, 0, 5, 5);
+				gbc_titleTextField.gridwidth = 2;
+				gbc_titleTextField.gridx = 2;
+				gbc_titleTextField.gridy = 1;
+				gbc_titleTextField.fill = GridBagConstraints.HORIZONTAL;
+				contentPanel.add(titleTextField, gbc_titleTextField);
+			}			
 			
-			contentPanel.add(categoryComboBox);
+			{
+				JLabel lblCategory = new JLabel("Category:");
+				GridBagConstraints gbc_lblCategory = new GridBagConstraints();
+				gbc_lblCategory.anchor = GridBagConstraints.WEST;
+				gbc_lblCategory.insets = new Insets(0, 0, 5, 5);
+				gbc_lblCategory.gridx = 1;
+				gbc_lblCategory.gridy = 2;
+				contentPanel.add(lblCategory, gbc_lblCategory);
+			}
+//			{
+//				categoryComboBox = new JComboBox();
+//				// TODO need to set it to default - not set
+//				categoryComboBox.setModel(new DefaultComboBoxModel(Category.values()));
+//				GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
+////				gbc_categoryComboBox.anchor = GridBagConstraints.WEST;
+//				gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
+//				gbc_categoryComboBox.gridwidth = 1;
+//				gbc_categoryComboBox.gridx = 3;
+//				gbc_categoryComboBox.gridy = 2;
+//				contentPanel.add(categoryComboBox, gbc_categoryComboBox);
+//			}			
+//			{
+//				JLabel lblRating = new JLabel("Rating:");
+//				GridBagConstraints gbc_lblRating = new GridBagConstraints();
+//				gbc_lblRating.anchor = GridBagConstraints.WEST;
+//				gbc_lblRating.insets = new Insets(0, 0, 5, 0);
+//				gbc_lblRating.gridwidth = 2;
+//				gbc_lblRating.gridx = 2;
+//				gbc_lblRating.gridy = 2;
+//				contentPanel.add(lblRating, gbc_lblRating);
+//			}
+//			{
+//				ratingComboBox = new JComboBox();
+//				// TODO need to set it to default - not set
+//				ratingComboBox.setModel(new DefaultComboBoxModel(Rating.values()));
+//				GridBagConstraints gbc_ratingComboBox = new GridBagConstraints();
+//				gbc_ratingComboBox.anchor = GridBagConstraints.EAST;
+//				gbc_ratingComboBox.insets = new Insets(0, 0, 0, 5);
+//				gbc_ratingComboBox.gridwidth = 2;
+//				gbc_ratingComboBox.gridx = 2;
+//				gbc_ratingComboBox.gridy = 3;
+//				contentPanel.add(ratingComboBox, gbc_ratingComboBox);
+//			}			
+//			{
+//				JLabel lblSummary = new JLabel("Summary:");
+//				GridBagConstraints gbc_lblSummary = new GridBagConstraints();
+//				gbc_lblSummary.anchor = GridBagConstraints.EAST;
+//				gbc_lblSummary.insets = new Insets(0, 0, 0, 5);
+//				gbc_lblSummary.gridx = 3;
+//				gbc_lblSummary.gridy = 0;
+//				contentPanel.add(lblSummary, gbc_lblSummary);
+//			}
+//			{
+//				summaryTextArea = new JTextArea();
+//				summaryTextArea.setRows(2);
+//				summaryTextArea.setColumns(5);
+//				GridBagConstraints gbc_summaryTextArea = new GridBagConstraints();
+//				gbc_summaryTextArea.anchor = GridBagConstraints.NORTHWEST;
+//				gbc_summaryTextArea.insets = new Insets(0, 0, 0, 5);
+//				gbc_summaryTextArea.gridwidth = 2;
+//				gbc_summaryTextArea.gridx = 3;
+//				gbc_summaryTextArea.gridy = 1;
+//				contentPanel.add(summaryTextArea, gbc_summaryTextArea);
+//			}
+//			{
+//			}			
 		}
-		{
-			JLabel lblRating = new JLabel("Rating:");
-			contentPanel.add(lblRating);
-		}
-		{
-			ratingComboBox = new JComboBox();
-			// TODO need to set it to default - not set
-			ratingComboBox.setModel(new DefaultComboBoxModel(Rating.values()));
-			contentPanel.add(ratingComboBox);
-		}
-		{
-			JLabel lblSummary = new JLabel("Summary:");
-			contentPanel.add(lblSummary);
-		}
-		{
-			summaryTextArea = new JTextArea();
-			summaryTextArea.setRows(2);
-			summaryTextArea.setColumns(5);
-			contentPanel.add(summaryTextArea);
-		}
+		
+
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -284,7 +368,7 @@ private void initAndRunUI() {
 	}
 
 	private void exitProgram() {
-		loggerBookEntryGUI.info("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
+		loggerBookEntryGUI.trace("::exitProgram->getOwnedWindows has: "+getOwnedWindows().length);
 		dispose();
 		return;
 	}

@@ -1,0 +1,22 @@
+<maciejDB.MainBookLibrary id="1">
+  <libraryName>test1</libraryName>
+  <books id="2">
+    <maciejDB.Book id="3">
+      <authorLastName>b</authorLastName>
+      <authorFirstName>a</authorFirstName>
+      <title>c</title>
+      <category>NotSet</category>
+      <rating>NotSet</rating>
+      <summary>asd</summary>
+    </maciejDB.Book>
+    <maciejDB.Book id="4">
+      <authorLastName>Palczak</authorLastName>
+      <authorFirstName>Maciej</authorFirstName>
+      <title>my life</title>
+      <category>Adventures</category>
+      <rating>Excellent</rating>
+      <summary>best</summary>
+    </maciejDB.Book>
+  </books>
+  <b reference="4"/>
+</maciejDB.MainBookLibrary>

@@ -72,7 +72,7 @@ public class MyUtilitiesTest {
 		testFile.delete();
 		assertFalse("File should not exist", testFile.exists());
 		assertTrue("File should have been saved", 
-				MyUtilities.saveMyLibraryToXMLFlie(fileName, startMyLibrary));
+				MyUtilities.saveMyLibraryToXMLFile(fileName, startMyLibrary));
 		
 		MainBookLibrary endMyLibrary = MyUtilities.getMyLibraryFromXMLFile(fileName);
 		assertEquals("My Utilities Test Library", 

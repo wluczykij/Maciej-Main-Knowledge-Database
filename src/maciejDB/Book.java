@@ -5,17 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 
+import org.apache.log4j.Logger;
+
 import maciejDB.BookAttributes.Category;
 import maciejDB.BookAttributes.Rating;
-
-//import maciejDB.Book.Category;
-//import maciejDB.Book.Rating;
+import org.apache.log4j.*;
 	
 public class Book implements BookAttributes, Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7351096138471467939L;
+	final static Logger logBook = Logger.getLogger(Book.class);
 		
 	protected String authorLastName;
 	protected String authorFirstName;
@@ -25,6 +26,7 @@ public class Book implements BookAttributes, Serializable {
 	protected String summary;
 	
 	Book() {
+		logBook.trace("::Book()");
 		title = "not set";
 		authorLastName = "not set";
 		authorFirstName = "not set";
@@ -41,6 +43,7 @@ public class Book implements BookAttributes, Serializable {
 		Rating inputRating,
 		String inputSummary) {
 		
+		logBook.trace("::Book Copy Constructor");
 		authorLastName = inputAuthorLastName;
 		authorFirstName = inputAuthorFirstName;
 		title = inputTitle;

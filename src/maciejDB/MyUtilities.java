@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -26,14 +27,14 @@ public class MyUtilities implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8539551356280565559L;
-	final static Logger logger = Logger.getLogger(MyUtilities.class);
+	final static Logger loggerMyUtilities = Logger.getLogger(MyUtilities.class);
 	
 	public static boolean saveStringToFile(String fileName, String saveString) {
 		boolean saved = false;
 		BufferedWriter bw = null;
 		
 		try {
-			bw = new BufferedWriter(new FileWriter(fileName));
+			bw = new BufferedWriter(new FileWriter(new File(".\\Databases\\", fileName)));
 			try {
 				bw.write(saveString);
 				saved = true;
@@ -44,12 +45,13 @@ public class MyUtilities implements Serializable {
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("::saveStringtoFile - IOEception");
+			loggerMyUtilities.error("::saveStringtoFile - IOEception");
 		}
 		return saved;
 	}
 
 	public static String getStringFromFile(String fileName) {
+		//TODO: need to make it read from directory that I want, not default
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
 		
@@ -70,7 +72,7 @@ public class MyUtilities implements Serializable {
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("::getStringFromFile - IOEception");
+			loggerMyUtilities.error("::getStringFromFile - IOEception");
 		}
 		return sb.toString();
 	}
@@ -96,13 +98,16 @@ public class MyUtilities implements Serializable {
 		return mk;
 	}
 	
-	public static boolean saveMyLibraryToXMLFlie(String fileName, 
+	public static boolean saveMyLibraryToXMLFile(String fileName, 
 			MainBookLibrary ml) {
 
 		// 1: converts MyLibrary object ml to XML String
 		// 2: writes String object to txt file and returns boolean true if 
 		// successful
-		return saveStringToFile(fileName, convertToXML(ml));
+		
+		loggerMyUtilities.trace("::saveMyLibraryToXMLFile");
+		// need to add '.xml' to the file
+		return saveStringToFile(fileName.concat("xml"), convertToXML(ml));
 	}
 
 	public static MainBookLibrary getMyLibraryFromXMLFile(String fileName) {
@@ -144,7 +149,7 @@ public class MyUtilities implements Serializable {
 	   }
 	   catch (Exception ex) {
 	       ex.printStackTrace();
-			logger.error("::saveMyLibraryToSerialFlie - IOEception");
+			loggerMyUtilities.error("::saveMyLibraryToSerialFlie - IOEception");
 	   }
 	     return saved;
 
@@ -169,7 +174,7 @@ public class MyUtilities implements Serializable {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			logger.error("::getMyLibraryFromSerialFile - IOEception");
+			loggerMyUtilities.error("::getMyLibraryFromSerialFile - IOEception");
 		}
 		return ml;
 	}
@@ -199,13 +204,13 @@ public class MyUtilities implements Serializable {
 						break;
 					}
 					default: {
-						logger.info("::consoleAccess()::default taken for user input!!");				
+						loggerMyUtilities.info("::consoleAccess()::default taken for user input!!");				
 						break;
 					}
 				}
 			} catch (IOException ex) {
 				System.out.println("IOException in console");
-				logger.error("::getMyLibraryFromSerialFile - IOException");
+				loggerMyUtilities.error("::getMyLibraryFromSerialFile - IOException");
 			}
 		} while (temp!='q' && temp!='Q');
 	}

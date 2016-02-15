@@ -1,0 +1,14 @@
+<maciejDB.MainBookLibrary id="1">
+  <libraryName>Maciej3</libraryName>
+  <books id="2">
+    <maciejDB.Book id="3">
+      <authorLastName>Palczak</authorLastName>
+      <authorFirstName>Maciej</authorFirstName>
+      <title>My Life</title>
+      <category>Adventures</category>
+      <rating>Excellent</rating>
+      <summary>yes</summary>
+    </maciejDB.Book>
+  </books>
+  <b reference="3"/>
+</maciejDB.MainBookLibrary>
