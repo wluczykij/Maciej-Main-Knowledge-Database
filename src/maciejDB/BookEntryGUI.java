@@ -99,7 +99,7 @@ private void initAndRunUI() {
 			gbl_contentPanel1.columnWidths = new int[]{64, 0, 61, 56, 58, 5, 101, 16, 26, 0};
 			gbl_contentPanel1.rowHeights = new int[]{28, 0};
 			gbl_contentPanel1.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-			gbl_contentPanel1.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};			
+			gbl_contentPanel1.rowWeights = new double[]{0.0, Double.MIN_VALUE};			
 			
 			
 			contentPanelGridBag1.setLayout(gbl_contentPanel1);
